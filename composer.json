@@ -1,0 +1,27 @@
+{
+  "name": "soerbv/monta-api",
+  "description": "A PHP Client for the Monta Portal",
+  "type": "library",
+  "keywords": [
+    "monta",
+    "api",
+    "php"
+  ],
+  "homepage": "https://www.soer.nl",
+  "authors": [
+    {
+      "name": "Rick de Boer",
+      "email": "r.deboer@soer.nl"
+    }
+  ],
+  "require": {
+    "php": ">=7.4.0",
+    "ext-curl": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "SoerBV\\Api\\": "src"
+    }
+  }
+}
