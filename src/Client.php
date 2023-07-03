@@ -78,14 +78,41 @@ class Client
     /*
      * Fetch latest events in Monta
      * You can filter the latest events using the latest known event ID that you have synchronised.
-     * Maximum: 200 events events per request
-     */
-    /**
-     * @throws Exception
+     * It will exclude the ID you provided.
+     * Maximum: 200 events per request
      */
     public function getEvents(int $id)
     {
-        return $this->sendRequest('orderevents/' . $id, 'GET');
+        return $this->sendRequest('orderevents/since_id/' . $id, 'GET');
+    }
+
+    /*
+     * Health check
+     */
+    public function getHealth()
+    {
+        return $this->sendRequest('health/', 'GET');
+    }
+
+    /*
+     * Products API
+     * All endpoints related to products
+     */
+
+    /*
+     * Retrieve a single product by SKU
+     */
+    public function getProduct($sku)
+    {
+        return $this->sendRequest('product/' . $sku, 'GET');
+    }
+
+    /*
+     * Retrieve a single product by barcode
+     */
+    public function getProductByBarcode($barcode)
+    {
+        return $this->sendRequest('product?barcode=' . $barcode, 'GET');
     }
 }
 

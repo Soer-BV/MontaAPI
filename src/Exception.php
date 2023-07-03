@@ -1,6 +1,6 @@
 <?php
 
-namespace SoerBV\Api;
+namespace SoerBV\Monta;
 class Exception extends \Exception
 {
 
