@@ -1,6 +1,6 @@
 <?php
 
-namespace SoerBV\Api;
+namespace SoerBV\Monta;
 
 /**
  * @author Rick de Boer <r.deboer.soer.nl>
