@@ -320,7 +320,7 @@ class Client
      * @return bool|string
      * @throws Exception
      */
-    public function getOrderReturnLabels($webshoporderid)
+    public function getOrderReturnlabels($webshoporderid)
     {
         return $this->sendRequest('order/' . $webshoporderid . '/returnlabels');
     }
@@ -539,9 +539,151 @@ class Client
      * Returnlabel Endpoint
      ************************/
 
-    
+    /**
+     * Create a return label
+     * @param $code
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getReturnlabel($code)
+    {
+        return $this->sendRequest('returnforecast/' . $code . '/returnlabel');
+    }
 
+    /*************************
+     * Info Endpoint
+     ************************/
 
+    /**
+     * Get all info
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getInfo()
+    {
+        return $this->sendRequest('info');
+    }
+
+    /*************************
+     * Supplier Endpoint
+     ************************/
+
+    /**
+     * Retrieve details of all the suppliers
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getSupplier()
+    {
+        return $this->sendRequest('supplier');
+    }
+
+    /**
+     * Retrieve details of a supplier by suppliercode
+     * @param $code
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getSupplierByCode($code)
+    {
+        return $this->sendRequest('supplier/' . $code);
+    }
+
+    /**
+     * Create new supplier
+     * @param $data
+     * @return bool|string
+     * @throws Exception
+     */
+    public function createSupplier($data)
+    {
+        return $this->sendRequest('supplier', [], self::METHOD_POST, $data);
+    }
+
+    /**
+     * Update a supplier
+     * @param $code
+     * @param $data
+     * @return bool|string
+     * @throws Exception
+     */
+    public function updateSupplier($code, $data)
+    {
+        return $this->sendRequest('supplier/' . $code, [], self::METHOD_PUT, $data);
+    }
+
+    /**
+     * Delete a supplier
+     * @param $code
+     * @return bool|string
+     * @throws Exception
+     */
+    public function deleteSupplier($code)
+    {
+        return $this->sendRequest('supplier/' . $code, [], self::METHOD_DELETE);
+    }
+
+    /*************************
+     * Return Endpoint
+     ************************/
+
+    /**
+     * Get returns created since provided datetime
+     * @param $datetime
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getReturns($datetime)
+    {
+        return $this->sendRequest('/return/since/' . $datetime);
+    }
+
+    /**
+     * Get returns updated since provided datetime
+     * @param $datetime
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getReturnsUpdatedSince($datetime)
+    {
+        return $this->sendRequest('/return/updated_since/' . $datetime);
+    }
+
+    /**
+     * Get returns for a specific order
+     * @param $webshoporderid
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getReturnsForOrder($webshoporderid)
+    {
+        return $this->sendRequest('/order/' . $webshoporderid . '/return');
+    }
+
+    /**
+     * Update follow-up action of a return
+     * @param $id
+     * @param $action
+     * @param $data
+     * @return bool|string
+     * @throws Exception
+     */
+    public function updateFollowUpReturn($id, $action, $data)
+    {
+        return $this->sendRequest('/return/' . $id . '/update_return_status/' . $action, [], self::METHOD_PUT, $data);
+    }
+
+    /**
+     * Update follow-up action of a return for one of more lines
+     * @param $id
+     * @param $data
+     * @return bool|string
+     * @throws Exception
+     */
+    public function updateFollowUpReturnMultipleLines($id, $data)
+    {
+        return $this->sendRequest('/return/' . $id . '/update_return_status/multiple_lines', [], self::METHOD_PUT, $data);
+    }
 
     /*************************
      * Order Events Endpoint
@@ -549,17 +691,31 @@ class Client
 
     /**
      * Fetch latest order events in Monta
-     * You can filter the latest events using the latest known event ID that you have synchronised.
-     * It will exclude the ID you provided.
-     * Maximum: 200 events per request
-     * @param int $id
+     * @param $id
      * @return bool|string
      * @throws Exception
      */
-    public function getOrderEvents(int $id)
+    public function getOrderEvents($id)
     {
         return $this->sendRequest('orderevents/since_id/' . $id);
     }
 
+    /*************************
+     * Reports Endpoint
+     ************************/
+
+    /**
+     * Get reports
+     * @param $datetime
+     * @return bool|string
+     * @throws Exception
+     */
+    public function getReports($datetime = null)
+    {
+        $params = [
+          'createdAfter' => $datetime,
+        ];
+        return $this->sendRequest('reports', $params);
+    }
 
 }
