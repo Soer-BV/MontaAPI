@@ -4,6 +4,7 @@ namespace SoerBV\Monta;
 
 /**
  * @author Rick de Boer <r.deboer.soer.nl>
+ * @author Thijmen Kort <t.kort@soer.nl>
  *  Permission is hereby granted, free of charge,
  * to any person obtaining a copy of this software
  * and associated documentation files (the "Software"),
