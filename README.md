@@ -4,6 +4,6 @@ This project is a PHP library to use the Monta API from within your PHP applicat
 ## Installation
 The project can easily be installed through Composer:
 
-```composer require soerbv/montaclient```
+```composer require soerbv/monta-api```
 
 Examples will be provider later.
