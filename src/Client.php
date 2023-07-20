@@ -66,7 +66,8 @@ class Client
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-           'Authorization: Basic ' . base64_encode($this->username . ':' . $this->password)
+           'Authorization: Basic ' . base64_encode($this->username . ':' . $this->password),
+            'Content-Type: application/json'
         ));
 
         $result = curl_exec($curl);
