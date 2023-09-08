@@ -72,7 +72,7 @@ class Client
 
         $result = curl_exec($curl);
         $headerInfo = curl_getinfo($curl);
-        $acceptedHeaders = [200, 201, 204];
+        $acceptedHeaders = [200, 201, 204, 404];
 
         if ($headerInfo['http_code'] != in_array($headerInfo['http_code'], $acceptedHeaders)) {
             throw new Exception('Status ' . $headerInfo['http_code'] . ' received: ' . $result);
