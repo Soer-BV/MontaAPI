@@ -172,7 +172,7 @@ class Client
      */
     public function createProduct($data)
     {
-        return $this->sendRequest('product', [], 'POST', $data);
+        return $this->sendRequest('product', [], self::METHOD_POST, $data);
     }
 
     /**
@@ -196,7 +196,7 @@ class Client
      */
     public function updateProduct($sku, $data)
     {
-        return $this->sendRequest('product/' . $sku, [], self::METHOD_GET, $data);
+        return $this->sendRequest('product/' . $sku, [], self::METHOD_PUT, $data);
     }
 
     /**
