@@ -10,16 +10,20 @@ namespace SoerBV\Monta;
  * and associated documentation files (the "Software"),
  * to deal in the Software without restriction according to the MIT license.
  */
-
 class Client
 {
     protected string $url = '';
+
     protected string $username = '';
+
     protected string $password = '';
 
     public const METHOD_GET = 'GET';
+
     public const METHOD_POST = 'POST';
+
     public const METHOD_PUT = 'PUT';
+
     public const METHOD_DELETE = 'DELETE';
 
     public function __construct(string $username, string $password, string $url = 'https://api-v6.monta.nl')
@@ -35,26 +39,26 @@ class Client
     public function sendRequest($endpoint, $params = [], $method = self::METHOD_GET, $data = null)
     {
         $curl = curl_init();
-        $url = $this->url . '/' . $endpoint . '?' . http_build_query($params);
+        $url = $this->url.'/'.$endpoint.'?'.http_build_query($params);
 
         switch ($method) {
-            case "GET":
+            case 'GET':
                 curl_setopt($curl, CURLOPT_HTTPGET, 1);
                 break;
-            case "POST":
+            case 'POST':
                 curl_setopt($curl, CURLOPT_POST, 1);
                 if ($data) {
                     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
                 }
                 break;
-            case "PUT":
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+            case 'PUT':
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
                 if ($data) {
                     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
                 }
                 break;
-            case "DELETE":
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+            case 'DELETE':
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
                 if ($data) {
                     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
                 }
@@ -65,20 +69,21 @@ class Client
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-           'Authorization: Basic ' . base64_encode($this->username . ':' . $this->password),
-            'Content-Type: application/json'
-        ));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            'Authorization: Basic '.base64_encode($this->username.':'.$this->password),
+            'Content-Type: application/json',
+        ]);
 
         $result = curl_exec($curl);
         $headerInfo = curl_getinfo($curl);
         $acceptedHeaders = [200, 201, 204, 404];
 
         if ($headerInfo['http_code'] != in_array($headerInfo['http_code'], $acceptedHeaders)) {
-            throw new Exception('Status ' . $headerInfo['http_code'] . ' received: ' . $result);
+            throw new Exception('Status '.$headerInfo['http_code'].' received: '.$result);
         }
 
         curl_close($curl);
+
         return $result;
     }
 
@@ -88,7 +93,9 @@ class Client
 
     /**
      * Get health of the Monta API
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getHealth()
@@ -102,43 +109,47 @@ class Client
 
     /**
      * Retrieve a single product by SKU
-     * @param $sku
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getProduct($sku)
     {
-        return $this->sendRequest('product/' . $sku);
+        return $this->sendRequest('product/'.$sku);
     }
 
     /**
      * Retrieve a single product by barcode
-     * @param $barcode
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getProductByBarcode($barcode)
     {
-        return $this->sendRequest('product?barcode=' . $barcode);
+        return $this->sendRequest('product?barcode='.$barcode);
     }
 
     /**
      * Retrieve a list of products by page number
-     * @param $page
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getProductByPage($page)
     {
-        return $this->sendRequest('products?page=' . $page);
+        return $this->sendRequest('products?page='.$page);
     }
 
     /**
      * Retrieve product stock details
-     * @param $sku
-     * @param bool $includeSplitStock
+     *
      * @return bool|string
+     *
      * @throws Exception
+     *
      * @parm $includeSplitStock
      */
     public function getProductStock($sku, bool $includeSplitStock = false)
@@ -155,19 +166,21 @@ class Client
 
     /**
      * Retrieve products with a changed stock since the provided date
-     * @param $date
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getUpdatedProducts($date)
     {
-        return $this->sendRequest('product/updated_since/' . $date . '?&stock=1&stock=2&stock=3&stock=4&stock=5&stock=6&stock=7&stock=8&stock=9&stock=10');
+        return $this->sendRequest('product/updated_since/'.$date.'?&stock=1&stock=2&stock=3&stock=4&stock=5&stock=6&stock=7&stock=8&stock=9&stock=10');
     }
 
     /**
      * Create a product
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createProduct($data)
@@ -177,60 +190,62 @@ class Client
 
     /**
      * Change stock of a product with a stock mutation
-     * @param $sku
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createStockMutation($sku, $data)
     {
-        return $this->sendRequest('product/' . $sku . '/stockmutations', [], self::METHOD_POST, $data);
+        return $this->sendRequest('product/'.$sku.'/stockmutations', [], self::METHOD_POST, $data);
     }
 
     /**
      * Update details of a product
-     * @param $sku
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateProduct($sku, $data)
     {
-        return $this->sendRequest('product/' . $sku, [], self::METHOD_PUT, $data);
+        return $this->sendRequest('product/'.$sku, [], self::METHOD_PUT, $data);
     }
 
     /**
      * Delete a single barcode from a product
-     * @param $sku
-     * @param $barcode
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function deleteSingleBarcode($sku, $barcode)
     {
-        return $this->sendRequest('product/' . $sku . '/barcode/' . $barcode, [], self::METHOD_DELETE);
+        return $this->sendRequest('product/'.$sku.'/barcode/'.$barcode, [], self::METHOD_DELETE);
     }
 
     /**
      * Delete all barcodes from a product
-     * @param $sku
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function deleteAllBarcodes($sku)
     {
-        return $this->sendRequest('product/' . $sku . '/barcode/', [], self::METHOD_DELETE);
+        return $this->sendRequest('product/'.$sku.'/barcode/', [], self::METHOD_DELETE);
     }
 
     /**
      * Delete a product
-     * @param $sku
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function deleteProduct($sku)
     {
-        return $this->sendRequest('product/?sku=' . $sku, [], self::METHOD_DELETE);
+        return $this->sendRequest('product/?sku='.$sku, [], self::METHOD_DELETE);
     }
 
     /*************************
@@ -239,41 +254,45 @@ class Client
 
     /**
      * Retrieve details about an order
-     * @param $webshoporderid
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getOrder($webshoporderid)
     {
-        return $this->sendRequest('order' . $webshoporderid);
+        return $this->sendRequest('order'.$webshoporderid);
     }
 
     /**
      * Retrieve details about an order with a changed status since the provided date
-     * @param $date
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getUpdatedOrders($date)
     {
-        return $this->sendRequest('order/updated_since/' . $date);
+        return $this->sendRequest('order/updated_since/'.$date);
     }
 
     /**
      * Create an RMA link for an order
-     * @param $webshoporderid
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createRMALink($webshoporderid)
     {
-        return $this->sendRequest('order/' . $webshoporderid . '/rmalinks');
+        return $this->sendRequest('order/'.$webshoporderid.'/rmalinks');
     }
 
     /**
      * Create an order
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createOrder($data)
@@ -283,70 +302,74 @@ class Client
 
     /**
      * Update an order
-     * @param $webshoporderid
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateOrder($webshoporderid, $data)
     {
-        return $this->sendRequest('order/'. $webshoporderid, [], self::METHOD_PUT, $data);
+        return $this->sendRequest('order/'.$webshoporderid, [], self::METHOD_PUT, $data);
     }
 
     /**
      * Delete a order
-     * @param $webshoporderid
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function deleteOrder($webshoporderid)
     {
-        return $this->sendRequest('order/' . $webshoporderid, [], self::METHOD_DELETE);
+        return $this->sendRequest('order/'.$webshoporderid, [], self::METHOD_DELETE);
     }
 
     /**
      * Get return forecasts for an order
-     * @param $webshoporderid
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getOrderReturnForecasts($webshoporderid)
     {
-        return $this->sendRequest('order/' . $webshoporderid . '/returnforecasts');
+        return $this->sendRequest('order/'.$webshoporderid.'/returnforecasts');
     }
 
     /**
      * Get returnlabels for an order
-     * @param $webshoporderid
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getOrderReturnlabels($webshoporderid)
     {
-        return $this->sendRequest('order/' . $webshoporderid . '/returnlabels');
+        return $this->sendRequest('order/'.$webshoporderid.'/returnlabels');
     }
 
     /**
      * Create shippinglabels for an order
-     * @param $webshoporderid
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createOrderShippingLabels($webshoporderid, $data)
     {
-        return $this->sendRequest('order/' . $webshoporderid . '/shippinglabels', [], self::METHOD_POST, $data);
+        return $this->sendRequest('order/'.$webshoporderid.'/shippinglabels', [], self::METHOD_POST, $data);
     }
 
     /**
      * Get shippinglabels for an order
-     * @param $webshoporderid
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getOrderShippingLabels($webshoporderid)
     {
-        return $this->sendRequest('order/' . $webshoporderid . '/shippinglabels');
+        return $this->sendRequest('order/'.$webshoporderid.'/shippinglabels');
     }
 
     /*************************
@@ -355,14 +378,14 @@ class Client
 
     /**
      * Retrieve details about a purchase order group
-     * @param $creationDate
-     * @param $page
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getPurchaseOrderGroup($creationDate, $page)
     {
-        return $this->sendRequest('purchaseordergroup?creationDate='. $creationDate . '&page='. $page);
+        return $this->sendRequest('purchaseordergroup?creationDate='.$creationDate.'&page='.$page);
     }
 
     /*************************
@@ -371,8 +394,9 @@ class Client
 
     /**
      * Retrieve details about a purchase order group
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function validateAddress($data)
@@ -386,43 +410,45 @@ class Client
 
     /**
      * Retrieve details of an inbound forecast based on reference and sku
-     * @param $reference
-     * @param $sku
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getInboundForecastByReferenceAndSku($reference, $sku)
     {
-        return $this->sendRequest('inboundforecast/group/'. $reference . '/' . $sku);
+        return $this->sendRequest('inboundforecast/group/'.$reference.'/'.$sku);
     }
 
     /**
      * Retrieve details of an inbound forecast based on reference
-     * @param $reference
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getInboundForecastByReference($reference)
     {
-        return $this->sendRequest('inboundforecast/group/'. $reference);
+        return $this->sendRequest('inboundforecast/group/'.$reference);
     }
 
     /**
      * Create an inbound forecast in a group with reference
-     * @param $reference
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createInboundForecast($reference, $data)
     {
-        return $this->sendRequest('/inboundforecast/group/'. $reference, [], self::METHOD_POST, $data);
+        return $this->sendRequest('/inboundforecast/group/'.$reference, [], self::METHOD_POST, $data);
     }
 
     /**
      * Create an inbound forecast group based on reference
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createInboundForecastGroup($data)
@@ -432,56 +458,54 @@ class Client
 
     /**
      * Update Inbound Forecast in a group
-     * @param $reference
-     * @param $sku
-     * @param $data
-     * @param bool $addQtyToExisting
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateInboundForecast($reference, $sku, $data, bool $addQtyToExisting = false)
     {
-        if (!str_contains($sku, '/'))
-        {
-            return $this->sendRequest('/inboundforecast/group/' . $reference . '?sku=' . $sku . '&addQtyToExisting=' . $addQtyToExisting, [], self::METHOD_PUT, $data);
+        if (! str_contains($sku, '/')) {
+            return $this->sendRequest('/inboundforecast/group/'.$reference.'?sku='.$sku.'&addQtyToExisting='.$addQtyToExisting, [], self::METHOD_PUT, $data);
         } else {
-            return $this->sendRequest('/inboundforecast/group/' . $reference . '/' . $sku . '/' . $addQtyToExisting, [], self::METHOD_PUT, $data);
+            return $this->sendRequest('/inboundforecast/group/'.$reference.'/'.$sku.'/'.$addQtyToExisting, [], self::METHOD_PUT, $data);
         }
     }
 
     /**
      * Update an existing Inbound Forecast Group
-     * @param $reference
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateInboundForecastGroup($reference, $data)
     {
-        return $this->sendRequest('inboundforecast/group/' . $reference, [], self::METHOD_PUT, $data);
+        return $this->sendRequest('inboundforecast/group/'.$reference, [], self::METHOD_PUT, $data);
     }
 
     /**
      * Delete an Inbound Forecast from a group
-     * @param $reference
-     * @param $sku
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function deleteInboundForecast($reference, $sku)
     {
-        return $this->sendRequest('inboundforecast/group/' . $reference . '/' . $sku, [], self::METHOD_DELETE);
+        return $this->sendRequest('inboundforecast/group/'.$reference.'/'.$sku, [], self::METHOD_DELETE);
     }
 
     /**
      * Delete an Inbound Forecast Group with all Inbound Forecasts
-     * @param $reference
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function deleteInboundForecastGroup($reference)
     {
-        return $this->sendRequest('inboundforecast/group/' . $reference, [], self::METHOD_DELETE);
+        return $this->sendRequest('inboundforecast/group/'.$reference, [], self::METHOD_DELETE);
     }
 
     /*************************
@@ -490,13 +514,14 @@ class Client
 
     /**
      * Retrieve inbound
-     * @param $id
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getInbound($id)
     {
-        return $this->sendRequest('inbounds?sinceid=' . $id);
+        return $this->sendRequest('inbounds?sinceid='.$id);
     }
 
     /*************************
@@ -505,8 +530,9 @@ class Client
 
     /**
      * Create Return Forecast
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createReturnForecast($data)
@@ -516,8 +542,9 @@ class Client
 
     /**
      * Update Return Forecast
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateReturnForecast($data)
@@ -527,13 +554,14 @@ class Client
 
     /**
      * Retrieve previously created Return Forecast by code
-     * @param $code
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getReturnForecast($code)
     {
-        return $this->sendRequest('returnforecast/' . $code);
+        return $this->sendRequest('returnforecast/'.$code);
     }
 
     /*************************
@@ -542,13 +570,14 @@ class Client
 
     /**
      * Create a return label
-     * @param $code
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getReturnlabel($code)
     {
-        return $this->sendRequest('returnforecast/' . $code . '/returnlabel');
+        return $this->sendRequest('returnforecast/'.$code.'/returnlabel');
     }
 
     /*************************
@@ -557,7 +586,9 @@ class Client
 
     /**
      * Get all info
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getInfo()
@@ -571,7 +602,9 @@ class Client
 
     /**
      * Retrieve details of all the suppliers
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getSupplier()
@@ -581,19 +614,21 @@ class Client
 
     /**
      * Retrieve details of a supplier by suppliercode
-     * @param $code
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getSupplierByCode($code)
     {
-        return $this->sendRequest('supplier/' . $code);
+        return $this->sendRequest('supplier/'.$code);
     }
 
     /**
      * Create new supplier
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function createSupplier($data)
@@ -603,25 +638,26 @@ class Client
 
     /**
      * Update a supplier
-     * @param $code
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateSupplier($code, $data)
     {
-        return $this->sendRequest('supplier/' . $code, [], self::METHOD_PUT, $data);
+        return $this->sendRequest('supplier/'.$code, [], self::METHOD_PUT, $data);
     }
 
     /**
      * Delete a supplier
-     * @param $code
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function deleteSupplier($code)
     {
-        return $this->sendRequest('supplier/' . $code, [], self::METHOD_DELETE);
+        return $this->sendRequest('supplier/'.$code, [], self::METHOD_DELETE);
     }
 
     /*************************
@@ -630,60 +666,62 @@ class Client
 
     /**
      * Get returns created since provided datetime
-     * @param $datetime
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getReturns($datetime)
     {
-        return $this->sendRequest('/return/since/' . $datetime);
+        return $this->sendRequest('/return/since/'.$datetime);
     }
 
     /**
      * Get returns updated since provided datetime
-     * @param $datetime
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getReturnsUpdatedSince($datetime)
     {
-        return $this->sendRequest('/return/updated_since/' . $datetime);
+        return $this->sendRequest('/return/updated_since/'.$datetime);
     }
 
     /**
      * Get returns for a specific order
-     * @param $webshoporderid
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getReturnsForOrder($webshoporderid)
     {
-        return $this->sendRequest('/order/' . $webshoporderid . '/return');
+        return $this->sendRequest('/order/'.$webshoporderid.'/return');
     }
 
     /**
      * Update follow-up action of a return
-     * @param $id
-     * @param $action
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateFollowUpReturn($id, $action, $data)
     {
-        return $this->sendRequest('/return/' . $id . '/update_return_status/' . $action, [], self::METHOD_PUT, $data);
+        return $this->sendRequest('/return/'.$id.'/update_return_status/'.$action, [], self::METHOD_PUT, $data);
     }
 
     /**
      * Update follow-up action of a return for one of more lines
-     * @param $id
-     * @param $data
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function updateFollowUpReturnMultipleLines($id, $data)
     {
-        return $this->sendRequest('/return/' . $id . '/update_return_status/multiple_lines', [], self::METHOD_PUT, $data);
+        return $this->sendRequest('/return/'.$id.'/update_return_status/multiple_lines', [], self::METHOD_PUT, $data);
     }
 
     /*************************
@@ -692,13 +730,14 @@ class Client
 
     /**
      * Fetch latest order events in Monta
-     * @param $id
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getOrderEvents($id)
     {
-        return $this->sendRequest('orderevents/since_id/' . $id);
+        return $this->sendRequest('orderevents/since_id/'.$id);
     }
 
     /*************************
@@ -707,16 +746,17 @@ class Client
 
     /**
      * Get reports
-     * @param $datetime
+     *
      * @return bool|string
+     *
      * @throws Exception
      */
     public function getReports($datetime = null)
     {
         $params = [
-          'createdAfter' => $datetime,
+            'createdAfter' => $datetime,
         ];
+
         return $this->sendRequest('reports', $params);
     }
-
 }
