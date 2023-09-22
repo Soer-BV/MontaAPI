@@ -22,7 +22,7 @@ class Client
     public const METHOD_PUT = 'PUT';
     public const METHOD_DELETE = 'DELETE';
 
-    public function __construct(string $username, string $password, string $url = 'https://api.montapacking.nl/rest/v5')
+    public function __construct(string $username, string $password, string $url = 'https://api-v6.monta.nl')
     {
         $this->url = $url;
         $this->username = $username;
