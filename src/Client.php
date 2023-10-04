@@ -261,7 +261,7 @@ class Client
      */
     public function getOrder($webshoporderid)
     {
-        return $this->sendRequest('order'.$webshoporderid);
+        return $this->sendRequest('order/'.$webshoporderid);
     }
 
     /**
