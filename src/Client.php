@@ -86,7 +86,7 @@ class Client
 
         return json_encode([
             'http_status' => $headerInfo['http_code'],
-            'data' => $result
+            'data' => $result,
         ]);
     }
 
