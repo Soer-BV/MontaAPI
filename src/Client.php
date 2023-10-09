@@ -84,7 +84,10 @@ class Client
 
         curl_close($curl);
 
-        return $result;
+        return json_encode([
+            'http_status' => $headerInfo['http_code'],
+            'data' => $result
+        ]);
     }
 
     /************************
