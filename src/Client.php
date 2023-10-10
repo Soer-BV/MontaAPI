@@ -444,7 +444,7 @@ class Client
      */
     public function createInboundForecast($reference, $data)
     {
-        return $this->sendRequest('/inboundforecast/group/'.$reference, [], self::METHOD_POST, $data);
+        return $this->sendRequest('inboundforecast/group/'.$reference, [], self::METHOD_POST, $data);
     }
 
     /**
@@ -456,7 +456,7 @@ class Client
      */
     public function createInboundForecastGroup($data)
     {
-        return $this->sendRequest('/inboundforecast/group', [], self::METHOD_POST, $data);
+        return $this->sendRequest('inboundforecast/group', [], self::METHOD_POST, $data);
     }
 
     /**
@@ -469,9 +469,9 @@ class Client
     public function updateInboundForecast($reference, $sku, $data, bool $addQtyToExisting = false)
     {
         if (! str_contains($sku, '/')) {
-            return $this->sendRequest('/inboundforecast/group/'.$reference.'?sku='.$sku.'&addQtyToExisting='.$addQtyToExisting, [], self::METHOD_PUT, $data);
+            return $this->sendRequest('inboundforecast/group/'.$reference.'?sku='.$sku.'&addQtyToExisting='.$addQtyToExisting, [], self::METHOD_PUT, $data);
         } else {
-            return $this->sendRequest('/inboundforecast/group/'.$reference.'/'.$sku.'/'.$addQtyToExisting, [], self::METHOD_PUT, $data);
+            return $this->sendRequest('inboundforecast/group/'.$reference.'/'.$sku.'/'.$addQtyToExisting, [], self::METHOD_PUT, $data);
         }
     }
 
@@ -676,7 +676,7 @@ class Client
      */
     public function getReturns($datetime)
     {
-        return $this->sendRequest('/return/since/'.$datetime);
+        return $this->sendRequest('return/since/'.$datetime);
     }
 
     /**
@@ -688,7 +688,7 @@ class Client
      */
     public function getReturnsUpdatedSince($datetime)
     {
-        return $this->sendRequest('/return/updated_since/'.$datetime);
+        return $this->sendRequest('return/updated_since/'.$datetime);
     }
 
     /**
@@ -700,7 +700,7 @@ class Client
      */
     public function getReturnsForOrder($webshoporderid)
     {
-        return $this->sendRequest('/order/'.$webshoporderid.'/return');
+        return $this->sendRequest('order/'.$webshoporderid.'/return');
     }
 
     /**
@@ -712,7 +712,7 @@ class Client
      */
     public function updateFollowUpReturn($id, $action, $data)
     {
-        return $this->sendRequest('/return/'.$id.'/update_return_status/'.$action, [], self::METHOD_PUT, $data);
+        return $this->sendRequest('return/'.$id.'/update_return_status/'.$action, [], self::METHOD_PUT, $data);
     }
 
     /**
@@ -724,7 +724,7 @@ class Client
      */
     public function updateFollowUpReturnMultipleLines($id, $data)
     {
-        return $this->sendRequest('/return/'.$id.'/update_return_status/multiple_lines', [], self::METHOD_PUT, $data);
+        return $this->sendRequest('return/'.$id.'/update_return_status/multiple_lines', [], self::METHOD_PUT, $data);
     }
 
     /*************************
