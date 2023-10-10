@@ -54,7 +54,7 @@ class Client
             case 'PUT':
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
                 if ($data) {
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(json_deocde($data)));
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(json_decode($data)));
                 }
                 break;
             case 'DELETE':
