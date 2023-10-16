@@ -525,8 +525,9 @@ class Client
     public function getInbound($id)
     {
         $params = [
-            'sinceid' => $id
-            ];
+            'sinceid' => $id,
+        ];
+
         return $this->sendRequest('inbounds', $params);
     }
 
