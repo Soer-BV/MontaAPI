@@ -48,19 +48,19 @@ class Client
             case 'POST':
                 curl_setopt($curl, CURLOPT_POST, 1);
                 if ($data) {
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, true));
                 }
                 break;
             case 'PUT':
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
                 if ($data) {
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, true));
                 }
                 break;
             case 'DELETE':
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
                 if ($data) {
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, true));
                 }
                 break;
             default:
