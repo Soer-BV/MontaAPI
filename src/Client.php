@@ -157,8 +157,8 @@ class Client
      */
     public function getProductStock($sku)
     {
-        
-        return $this->sendRequest('product/' . $sku . '/stock');
+
+        return $this->sendRequest('product/'.$sku.'/stock');
 
     }
 
