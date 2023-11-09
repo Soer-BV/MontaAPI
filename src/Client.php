@@ -155,15 +155,10 @@ class Client
      *
      * @parm $includeSplitStock
      */
-    public function getProductStock($sku, bool $includeSplitStock = false)
+    public function getProductStock($sku)
     {
-        $params =
-            [
-                'sku' => $sku,
-                'includeSplitStock' => $includeSplitStock ? 'true' : 'false',
-            ];
-
-        return $this->sendRequest('products/stock', $params);
+        
+        return $this->sendRequest('product/' . $sku . '/stock');
 
     }
 
