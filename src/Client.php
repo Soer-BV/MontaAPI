@@ -39,7 +39,10 @@ class Client
     public function sendRequest($endpoint, $params = [], $method = self::METHOD_GET, $data = null)
     {
         $curl = curl_init();
+        $url = $this->url . '/' . $endpoint;
+        if($params) {
         $url = $this->url.'/'.$endpoint.'?'.http_build_query($params);
+        }
 
         switch ($method) {
             case 'GET':
@@ -739,11 +742,7 @@ class Client
      */
     public function getOrderEvents($id)
     {
-        $params = [
-            'sinceid' => $id,
-        ];
-
-        return $this->sendRequest('orderevents/since_id', $params);
+        return $this->sendRequest('orderevents/since_id/' . $id);
     }
 
     /*************************
