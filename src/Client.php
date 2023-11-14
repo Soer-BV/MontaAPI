@@ -741,7 +741,8 @@ class Client
     {
         $params = [
             'sinceid' => $id,
-            ];
+        ];
+
         return $this->sendRequest('orderevents/since_id', $params);
     }
 
