@@ -39,9 +39,9 @@ class Client
     public function sendRequest($endpoint, $params = [], $method = self::METHOD_GET, $data = null)
     {
         $curl = curl_init();
-        $url = $this->url . '/' . $endpoint;
-        if($params) {
-        $url = $this->url.'/'.$endpoint.'?'.http_build_query($params);
+        $url = $this->url.'/'.$endpoint;
+        if ($params) {
+            $url = $this->url.'/'.$endpoint.'?'.http_build_query($params);
         }
 
         switch ($method) {
@@ -742,7 +742,7 @@ class Client
      */
     public function getOrderEvents($id)
     {
-        return $this->sendRequest('orderevents/since_id/' . $id);
+        return $this->sendRequest('orderevents/since_id/'.$id);
     }
 
     /*************************
