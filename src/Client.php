@@ -373,6 +373,11 @@ class Client
         return $this->sendRequest('order/'.$webshoporderid.'/shippinglabels');
     }
 
+    public function getOrderColli($webshoporderid)
+    {
+        return $this->sendRequest('order/' . $webshoporderid . '/colli');
+    }
+
     /*************************
      * Purchase Order Group Endpoint
      ************************/
