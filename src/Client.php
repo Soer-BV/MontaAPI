@@ -375,7 +375,7 @@ class Client
 
     public function getOrderColli($webshoporderid)
     {
-        return $this->sendRequest('order/' . $webshoporderid . '/colli');
+        return $this->sendRequest('order/'.$webshoporderid.'/colli');
     }
 
     /*************************
