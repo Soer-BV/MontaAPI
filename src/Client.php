@@ -739,7 +739,10 @@ class Client
      */
     public function getOrderEvents($id)
     {
-        return $this->sendRequest('orderevents/since_id/'.$id);
+        $params = [
+            'sinceid' => $id,
+            ];
+        return $this->sendRequest('orderevents/since_id', $params);
     }
 
     /*************************
