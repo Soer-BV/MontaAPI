@@ -174,7 +174,7 @@ class Client
      */
     public function getUpdatedProducts($date)
     {
-        return $this->sendRequest('product/updated_since/'.$date.'?&stock=1&stock=2&stock=3&stock=4&stock=5&stock=6&stock=7&stock=8&stock=9&stock=10');
+        return $this->sendRequest('product/updated_since/'.$date);
     }
 
     /**
