@@ -246,7 +246,7 @@ class Client
      */
     public function deleteProduct($sku)
     {
-        return $this->sendRequest('product/?sku='.$sku, [], self::METHOD_DELETE);
+        return $this->sendRequest('product/'.$sku, [], self::METHOD_DELETE);
     }
 
     /*************************
