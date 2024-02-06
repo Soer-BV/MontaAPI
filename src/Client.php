@@ -265,7 +265,7 @@ class Client
         return $this->sendRequest('order/'.$webshoporderid);
     }
 
-     /**
+    /**
      * Retrieve all orders since a specific date
      *
      * @return bool|string
@@ -274,7 +274,7 @@ class Client
      */
     public function getOrdersSinceDate($created)
     {
-        return $this->sendRequest('orders?created_since=' . $created);
+        return $this->sendRequest('orders?created_since='.$created);
     }
 
     /**
@@ -385,7 +385,7 @@ class Client
         return $this->sendRequest('order/'.$webshoporderid.'/shippinglabels');
     }
 
-     /**
+    /**
      * Get colli for an Order
      *
      * @return bool|string
