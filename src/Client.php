@@ -458,6 +458,18 @@ class Client
     }
 
     /**
+     * Retrieve all inbound forecasts with a specific SKU
+     *
+     * @return bool|string
+     *
+     * @throws Exception
+     */
+    public function getAllInboundForecastsBySku($sku)
+    {
+        return $this->sendRequest('inboundforecast/group/byproductsku/'.$sku);
+    }
+
+    /**
      * Create an inbound forecast in a group with reference
      *
      * @return bool|string
