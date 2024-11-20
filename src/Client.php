@@ -274,7 +274,7 @@ class Client
      */
     public function getOrdersSinceDate($created, $page = 0)
     {
-        return $this->sendRequest('orders?created_since=' . $created . '&page=' . $page);
+        return $this->sendRequest('orders?created_since='.$created.'&page='.$page);
     }
 
     /**
