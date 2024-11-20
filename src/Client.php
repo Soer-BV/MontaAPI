@@ -272,9 +272,9 @@ class Client
      *
      * @throws Exception
      */
-    public function getOrdersSinceDate($created)
+    public function getOrdersSinceDate($created, $page)
     {
-        return $this->sendRequest('orders?created_since='.$created);
+        return $this->sendRequest('orders?created_since='.$created'?page='.$page);
     }
 
     /**
