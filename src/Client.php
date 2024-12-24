@@ -156,13 +156,12 @@ class Client
      *
      * @throws Exception
      *
-     * @parm $includeSplitStock
+     * @param $includeSplitStock
      */
-    public function getProductStock($sku)
+    public function getProductStock($sku, bool $includeSplitStock = false)
     {
-
-        return $this->sendRequest('product/'.$sku.'/stock');
-
+        $query = '?includeSplitStock=' . ($includeSplitStock ? 'true' : 'false');
+        return $this->sendRequest('product/' . $sku . '/stock/' . $query);
     }
 
     /**
