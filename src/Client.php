@@ -146,9 +146,9 @@ class Client
      */
     public function getProductByPage($page, bool $includeSplitStock = false)
     {
-        $query = '?page=' . $page . '&includeSplitStock=' . ($includeSplitStock ? 'true' : 'false');
+        $query = '?page='.$page.'&includeSplitStock='.($includeSplitStock ? 'true' : 'false');
 
-        return $this->sendRequest('products' . $query);
+        return $this->sendRequest('products'.$query);
     }
 
     /**
