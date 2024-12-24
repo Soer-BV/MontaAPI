@@ -160,7 +160,7 @@ class Client
      */
     public function getProductStock($sku, bool $includeSplitStock = false)
     {
-        $query = 'includeSplitStock='.($includeSplitStock ? 'true' : 'false');
+        $query = $includeSplitStock ? 'true' : 'false';
 
         return $this->sendRequest('product/'.$sku.'/stock/'.$query);
     }
