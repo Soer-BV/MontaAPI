@@ -144,9 +144,11 @@ class Client
      *
      * @throws Exception
      */
-    public function getProductByPage($page)
+    public function getProductByPage($page, bool $includeSplitStock = false)
     {
-        return $this->sendRequest('products?page='.$page);
+        $query = '&includeSplitStock='.($includeSplitStock ? 'true' : 'false');
+        
+        return $this->sendRequest('products?page='.$page.$includeSplitStock);
     }
 
     /**
