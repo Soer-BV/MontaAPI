@@ -155,13 +155,12 @@ class Client
      * @return bool|string
      *
      * @throws Exception
-     *
-     * @param $includeSplitStock
      */
     public function getProductStock($sku, bool $includeSplitStock = false)
     {
-        $query = '?includeSplitStock=' . ($includeSplitStock ? 'true' : 'false');
-        return $this->sendRequest('product/' . $sku . '/stock/' . $query);
+        $query = '?includeSplitStock='.($includeSplitStock ? 'true' : 'false');
+
+        return $this->sendRequest('product/'.$sku.'/stock/'.$query);
     }
 
     /**
